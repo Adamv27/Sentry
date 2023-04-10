@@ -3,18 +3,6 @@ package sentry.backend;
 import com.google.common.hash.Hashing;
 
 import java.nio.charset.StandardCharsets;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.AlgorithmParameters;
-import java.security.GeneralSecurityException;
-import java.util.Base64;
-import java.util.Properties;
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
 
 public class Encryptor {
   private static final byte[] SALT = "5937612501".getBytes();
