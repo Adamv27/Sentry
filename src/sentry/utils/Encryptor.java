@@ -1,4 +1,4 @@
-package sentry.backend;
+package sentry.utils;
 
 import com.google.common.hash.Hashing;
 

@@ -1,8 +1,8 @@
 package sentry;
 
 import sentry.UI.Login;
-import sentry.UI.ResourceLoader;
-import sentry.backend.SQLite;
+import sentry.utils.ResourceLoader;
+import sentry.model.SQLite;
 
 public class Sentry {
   public static void main(String[] args) {

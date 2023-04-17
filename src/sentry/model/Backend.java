@@ -1,4 +1,4 @@
-package sentry.backend;
+package sentry.model;
 
 public class Backend {
   public static boolean isValidLogin(String username, String password) {

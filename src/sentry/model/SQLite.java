@@ -1,6 +1,7 @@
-package sentry.backend;
+package sentry.model;
 
-import javax.swing.plaf.nimbus.State;
+import sentry.utils.Encryptor;
+
 import java.io.File;
 import java.sql.*;
 

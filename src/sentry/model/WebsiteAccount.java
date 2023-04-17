@@ -1,4 +1,4 @@
-package sentry.backend;
+package sentry.model;
 
 public class WebsiteAccount {
   private String url;
