@@ -1,4 +1,4 @@
-package sentry.UI.components;
+package sentry.view.components;
 
 import sentry.UI.Constants;
 

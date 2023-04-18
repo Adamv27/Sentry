@@ -1,4 +1,4 @@
-package sentry.UI;
+package sentry.utils;
 
 import java.awt.*;
 import java.io.File;

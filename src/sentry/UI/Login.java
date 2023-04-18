@@ -1,10 +1,11 @@
 package sentry.UI;
 
-import sentry.UI.components.CloseButton;
-import sentry.UI.components.RoundJButton;
-import sentry.UI.components.RoundJPasswordField;
-import sentry.UI.components.RoundJTextField;
-import sentry.backend.Backend;
+import sentry.view.components.CloseButton;
+import sentry.view.components.RoundJButton;
+import sentry.view.components.RoundJPasswordField;
+import sentry.view.components.RoundJTextField;
+import sentry.model.Backend;
+import sentry.utils.ResourceLoader;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,7 @@
-package sentry.UI.components;
+package sentry.view.components;
 
 import sentry.UI.Constants;
-import sentry.UI.ResourceLoader;
+import sentry.utils.ResourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
