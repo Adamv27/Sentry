@@ -1,6 +1,6 @@
 package sentry.view.components;
 
-import sentry.UI.Constants;
+import sentry.utils.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +25,7 @@ public class RoundJButton extends JButton {
 
   protected void paintBorder(Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
-    GradientPaint gp = new GradientPaint(0, 0, Constants.LIGHT_GREEN, getWidth() - 1, getHeight() - 1, Constants.DARK_GREY);
+    GradientPaint gp = new GradientPaint(0, 0, Constants.LIGHT_GREEN, getWidth() - 1, getHeight() - 1, Constants.PANEL_BACKGROUND);
     g2d.setPaint(gp);
     g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
   }

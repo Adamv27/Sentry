@@ -1,6 +1,6 @@
 package sentry.view.components;
 
-import sentry.UI.Constants;
+import sentry.utils.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,8 +8,8 @@ import java.awt.geom.RoundRectangle2D;
 
 public class RoundJPasswordField extends JPasswordField {
   private Shape shape;
-  public RoundJPasswordField(int size) {
-    super(size);
+  public RoundJPasswordField(int columns) {
+    super(columns);
     this.setBackground(Constants.LIGHT_GREY);
     this.setForeground(Color.WHITE);
     this.setHorizontalAlignment(JTextField.CENTER);

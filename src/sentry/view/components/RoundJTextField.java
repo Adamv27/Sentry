@@ -1,6 +1,6 @@
 package sentry.view.components;
 
-import sentry.UI.Constants;
+import sentry.utils.Constants;
 
 import javax.swing.*;
 import java.awt.*;

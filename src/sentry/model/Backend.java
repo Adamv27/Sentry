@@ -23,7 +23,8 @@ public class Backend {
   }
 
   public static void main(String[] args) {
-    //addNewUser("Jakel77", "hello");
+    addNewUser("Adam", "12345");
     System.out.println(isValidLogin("Jakel77", "hello"));
+    System.out.println(isValidLogin("Adam", "12345"));
   }
 }

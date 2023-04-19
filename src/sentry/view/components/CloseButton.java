@@ -1,6 +1,6 @@
 package sentry.view.components;
 
-import sentry.UI.Constants;
+import sentry.utils.Constants;
 import sentry.utils.ResourceLoader;
 
 import javax.swing.*;
@@ -9,19 +9,20 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class CloseButton extends JButton {
-  public CloseButton(String text, JFrame frame) {
+  public CloseButton(String text) {
     super(text);
-    this.setBackground(Constants.LIGHT_GREY);
-    this.setForeground(Color.WHITE);
+    this.setBackground(Constants.PANEL_BACKGROUND);
     this.setFocusPainted(false);
     //setOpaque(false);
     setFocusable(false);
     setForeground(Color.WHITE);
     //setContentAreaFilled(false);
-    addActionListener(e -> frame.dispose());
+    addActionListener(e -> System.exit(0));
+    setHorizontalAlignment(SwingConstants.CENTER);
+    setPreferredSize(new Dimension(30, 30));
 
     setBorder(null);
-    setFont(ResourceLoader.getFont("cuyabra Regular"));
+    setFont(Constants.TEXT_FONT);
 
     addMouseListener(new MouseListener() {
       @Override
@@ -46,7 +47,7 @@ public class CloseButton extends JButton {
 
       @Override
       public void mouseExited(MouseEvent e) {
-        setBackground(Constants.LIGHT_GREY);
+        setBackground(Constants.PANEL_BACKGROUND);
       }
     });
   }

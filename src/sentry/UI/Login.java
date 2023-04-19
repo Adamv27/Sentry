@@ -1,5 +1,6 @@
 package sentry.UI;
 
+import sentry.utils.Constants;
 import sentry.view.components.CloseButton;
 import sentry.view.components.RoundJButton;
 import sentry.view.components.RoundJPasswordField;
@@ -55,7 +56,7 @@ public class Login {
     frame.add(loginButton);
 
 
-    CloseButton closeButton = new CloseButton("X", frame);
+    CloseButton closeButton = new CloseButton("X");
     closeButton.setBounds(550, 0, 50, 35);
     frame.add(closeButton);
 
@@ -63,7 +64,7 @@ public class Login {
     frame.add(signupButton);
 
     frame.setResizable(false);
-    frame.setLocationRelativeTo(null);
+
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setVisible(true);
 
@@ -81,7 +82,7 @@ public class Login {
     frame.setLayout(null);
     frame.setUndecorated(true);
     frame.setSize(600, 450);
-    frame.getContentPane().setBackground(Constants.DARK_GREY);
+    frame.getContentPane().setBackground(Constants.PANEL_BACKGROUND);
     frame.addMouseListener(new MouseAdapter() {
       @Override
       public void mousePressed(MouseEvent e) {
@@ -172,7 +173,7 @@ public class Login {
 
 
     signupButton = new JButton("Sign Up");
-    signupButton.setBackground(Constants.DARK_GREY);
+    signupButton.setBackground(Constants.PANEL_BACKGROUND);
     signupButton.setBorder(null);
     signupButton.setFocusPainted(false);
     //setOpaque(false);
