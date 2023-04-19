@@ -147,7 +147,6 @@ public class LoginPanel extends JPanel {
     signupButton.setFocusable(false);
     signupButton.setForeground(Constants.LIGHT_GREEN);
     signupButton.setPreferredSize(new Dimension(50, 25));
-    signupButton.addActionListener(e -> System.out.println("SIGN UP -> CONTROLLER"));
 
     signupPanel.add(signUpText);
     signupPanel.add(Box.createHorizontalStrut(5));

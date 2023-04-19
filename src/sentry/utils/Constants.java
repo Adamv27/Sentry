@@ -13,6 +13,19 @@ public class Constants {
   public static final Font TEXT_FONT = ResourceLoader.getFont("cuyabra Regular");
   public static final Font TITLE_FONT = ResourceLoader.getFont("Bord Demo");
 
+
+  public static int MAIN_FRAME_WIDTH;
+  public static int MAIN_FRAME_HEIGHT;
+
+  public static void setup() {
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    int screenWidth = (int) screenSize.getWidth();
+    int screenHeight = (int) screenSize.getHeight();
+
+    MAIN_FRAME_WIDTH = (int) ((int) screenWidth / 1.5);
+    MAIN_FRAME_HEIGHT = (int) ((int) screenHeight / 1.5);
+  }
+
   private static void registerFonts() {
     System.out.println(ResourceLoader.getFontNames());
 

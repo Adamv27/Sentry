@@ -1,5 +1,10 @@
 package sentry.model;
 
+import sentry.utils.Encryptor;
+
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
 public class Backend {
   public static boolean isValidLogin(String username, String password) {
     username = username.replaceAll("\\s+", "");
@@ -22,9 +27,17 @@ public class Backend {
     return true;
   }
 
+
+  public static ArrayList<WebsiteAccount> getUserWebsiteAccounts (String username, String password) {
+    ArrayList<WebsiteAccount> userWebsiteAccounts = new ArrayList<>();
+
+    userWebsiteAccounts = SQLite.getUserWebsiteAccounts(username, password);
+
+    return userWebsiteAccounts;
+  }
+
   public static void main(String[] args) {
-    addNewUser("Adam", "12345");
-    System.out.println(isValidLogin("Jakel77", "hello"));
-    System.out.println(isValidLogin("Adam", "12345"));
+    //addNewUser("Adam", "12345");
+    //System.out.println(isValidLogin("Adam", "12345"));
   }
 }

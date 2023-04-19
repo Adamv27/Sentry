@@ -4,6 +4,7 @@ import sentry.utils.Encryptor;
 
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class SQLite {
 
@@ -39,7 +40,7 @@ public class SQLite {
                     + ");";
 
     String websitesSQL = "CREATE TABLE IF NOT EXISTS websites (\n"
-                       + "   user_id text PRIMARY KEY,\n"
+                       + "   user_id text,\n"
                        + "   url text NOT NULL,\n"
                        + "   username text NOT NULL,\n"
                        + "   password text NOT NULL\n"
@@ -79,7 +80,7 @@ public class SQLite {
   public static boolean addNewPassword(String userID, WebsiteAccount websiteAccount) {
     String sql = "INSERT INTO websites(user_id, url, username, password) VALUES (?, ?, ?, ?)";
 
-    try (Connection conn = DriverManager.getConnection(URL)) {
+    try (Connection conn = DriverManager.getConnection(URL + "websites.db")) {
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, userID);
       stmt.setString(2, websiteAccount.getUrl());
@@ -114,7 +115,7 @@ public class SQLite {
   }
 
   public static boolean isValidLogin(String username, String password) {
-    String user_id = Encryptor.hash(username, password);
+    String userID = Encryptor.hash(username, password);
 
     try (Connection conn = DriverManager.getConnection(URL + "users.db")) {
       PreparedStatement stmt = conn.prepareStatement("SELECT username, user_id FROM users WHERE username=?");
@@ -130,13 +131,36 @@ public class SQLite {
       }
 
       return resultSet.getString("username").equals(username)
-              && resultSet.getString("user_id").equals(user_id);
+              && resultSet.getString("user_id").equals(userID);
 
     } catch (SQLException e) {
       System.out.println(e.getMessage());
       return false;
     }
+  }
 
+  public static ArrayList<WebsiteAccount> getUserWebsiteAccounts(String username, String password) {
+    String userID = Encryptor.hash(username, password);
+
+    try (Connection conn = DriverManager.getConnection(URL + "websites.db")) {
+      PreparedStatement stmt = conn.prepareStatement("SELECT url, username, password FROM websites WHERE user_id=?");
+
+      stmt.setString(1, userID);
+      ResultSet rs = stmt.executeQuery();
+
+      while (rs.next()) {
+        System.out.println(rs.getString(1));
+        System.out.println(rs.getString(2));
+        System.out.println(rs.getString(3));
+      }
+
+      ArrayList<WebsiteAccount> data = new ArrayList<>();
+      return data;
+
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+      return null;
+    }
   }
 
   public static void printAllData() {
@@ -159,5 +183,9 @@ public class SQLite {
   }
 
   public static void main(String[] args) {
+    //addNewUser("jake", "test");
+    //addNewUser("Adam", "12345");
+    //WebsiteAccount account = new WebsiteAccount("SENTRY.COM", "ADAM", "PASSWORD");
+    //addNewPassword(Encryptor.hash("Adam", "12345"), account);
   }
 }

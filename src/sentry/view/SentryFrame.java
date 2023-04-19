@@ -1,6 +1,9 @@
 package sentry.view;
 
+
 import sentry.controller.LoginController;
+import sentry.model.Backend;
+import sentry.model.WebsiteAccount;
 import sentry.utils.Constants;
 import sentry.view.panels.LoginPanel;
 import sentry.view.panels.MainPanel;
@@ -10,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class SentryFrame extends JFrame {
 
@@ -19,16 +23,23 @@ public class SentryFrame extends JFrame {
   private int HEIGHT = 450;
 
   private Point initialClick;
-  public SentryFrame() {
-    cardLayout = new CardLayout();
-    LoginPanel loginPanel = new LoginPanel();
-    SignUpPanel signUpPanel = new SignUpPanel();
-    MainPanel mainPanel = new MainPanel();
 
+  private MainPanel mainPanel;
+  private LoginPanel loginPanel;
+  public SentryFrame() {
+
+
+    cardLayout = new CardLayout();
+    loginPanel = new LoginPanel();
+    SignUpPanel signUpPanel = new SignUpPanel();
+    mainPanel = new MainPanel();
+
+
+    styleFrame();
     setLayout(cardLayout);
 
     //Initialize all controllers
-    LoginController loginController = new LoginController(loginPanel);
+    LoginController loginController = new LoginController(loginPanel, mainPanel);
 
     // Add each view panel to card layout
     add(loginPanel, "login");
@@ -37,7 +48,7 @@ public class SentryFrame extends JFrame {
 
     loginPanel.login(e -> {
       if (loginController.attemptLogin()) {
-        cardLayout.show(SentryFrame.this.getContentPane(), "stored passwords");
+        showMainPanel();
       } else {
         System.out.println("Invalid Login!");
       }
@@ -45,18 +56,22 @@ public class SentryFrame extends JFrame {
 
     loginPanel.signUp(e -> cardLayout.show(SentryFrame.this.getContentPane(), "sign up"));
 
+    mainPanel.back(e -> showLoginPanel());
+    signUpPanel.back(e -> showLoginPanel());
 
-    styleFrame();
 
-    setLocationRelativeTo(null);
+
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    pack();
+    setLocationRelativeTo(null);
     setVisible(true);
   }
 
 
   private void styleFrame() {
     setUndecorated(true);
-    setSize(this.WIDTH, this.HEIGHT);
+    setPreferredSize(new Dimension(this.WIDTH, this.HEIGHT));
+
     addMouseListener(new MouseAdapter() {
       @Override
       public void mousePressed(MouseEvent e) {
@@ -78,5 +93,18 @@ public class SentryFrame extends JFrame {
         setLocation(X, Y);
       }
     });
+  }
+
+  private void showLoginPanel() {
+    setSize(WIDTH, HEIGHT);
+    cardLayout.show(SentryFrame.this.getContentPane(), "login");
+    setLocationRelativeTo(null);
+  }
+
+
+  private void showMainPanel() {
+    setSize(Constants.MAIN_FRAME_WIDTH, Constants.MAIN_FRAME_HEIGHT);
+    cardLayout.show(SentryFrame.this.getContentPane(), "stored passwords");
+    setLocationRelativeTo(null);
   }
 }
