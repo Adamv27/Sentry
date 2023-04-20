@@ -148,13 +148,13 @@ public class SQLite {
       stmt.setString(1, userID);
       ResultSet rs = stmt.executeQuery();
 
-      while (rs.next()) {
-        System.out.println(rs.getString(1));
-        System.out.println(rs.getString(2));
-        System.out.println(rs.getString(3));
-      }
-
       ArrayList<WebsiteAccount> data = new ArrayList<>();
+      while (rs.next()) {
+        String url = rs.getString(1);
+        String websiteUsername = rs.getString(2);
+        String websitePassword = rs.getString(3);
+        data.add(new WebsiteAccount(url, websiteUsername, websitePassword));
+      }
       return data;
 
     } catch (SQLException e) {

@@ -2,8 +2,6 @@ package sentry.view;
 
 
 import sentry.controller.LoginController;
-import sentry.model.Backend;
-import sentry.model.WebsiteAccount;
 import sentry.utils.Constants;
 import sentry.view.panels.LoginPanel;
 import sentry.view.panels.MainPanel;
@@ -13,27 +11,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+
 
 public class SentryFrame extends JFrame {
 
-  private CardLayout cardLayout;
+  private final CardLayout cardLayout;
 
-  private int WIDTH = 600;
-  private int HEIGHT = 450;
+  // PUT THESE IN CONSTANTS
+  private final int WIDTH = 600;
+  private final int HEIGHT = 450;
 
   private Point initialClick;
 
-  private MainPanel mainPanel;
-  private LoginPanel loginPanel;
   public SentryFrame() {
 
-
     cardLayout = new CardLayout();
-    loginPanel = new LoginPanel();
+    LoginPanel loginPanel = new LoginPanel();
     SignUpPanel signUpPanel = new SignUpPanel();
-    mainPanel = new MainPanel();
-
+    MainPanel mainPanel = new MainPanel();
 
     styleFrame();
     setLayout(cardLayout);
@@ -69,6 +64,7 @@ public class SentryFrame extends JFrame {
 
 
   private void styleFrame() {
+    // Remove default frame to create custom one
     setUndecorated(true);
     setPreferredSize(new Dimension(this.WIDTH, this.HEIGHT));
 

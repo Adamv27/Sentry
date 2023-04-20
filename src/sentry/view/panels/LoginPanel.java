@@ -88,6 +88,7 @@ public class LoginPanel extends JPanel {
     usernameTextField = new RoundJTextField(22);
     Font font = Constants.TEXT_FONT.deriveFont(Font.PLAIN, 18);
     usernameTextField.setFont(font);
+    usernameTextField.setBackground(Constants.MIDDLE_GROUND);
     usernameTextField.setPreferredSize(new Dimension(usernameTextField.getWidth(), 50));
 
     usernameTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -96,6 +97,7 @@ public class LoginPanel extends JPanel {
 
     passwordField = new RoundJPasswordField(22);
     passwordField.setFont(font);
+    passwordField.setBackground(Constants.MIDDLE_GROUND);
     passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
     passwordField.setPreferredSize(new Dimension(usernameTextField.getWidth(), 50));
     fieldPanel.add(passwordField);

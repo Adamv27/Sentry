@@ -29,11 +29,7 @@ public class Backend {
 
 
   public static ArrayList<WebsiteAccount> getUserWebsiteAccounts (String username, String password) {
-    ArrayList<WebsiteAccount> userWebsiteAccounts = new ArrayList<>();
-
-    userWebsiteAccounts = SQLite.getUserWebsiteAccounts(username, password);
-
-    return userWebsiteAccounts;
+    return SQLite.getUserWebsiteAccounts(username, password);
   }
 
   public static void main(String[] args) {

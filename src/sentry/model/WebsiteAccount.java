@@ -22,4 +22,8 @@ public class WebsiteAccount {
   public String getPassword() {
     return password;
   }
+
+  public String toString() {
+    return "URL: " + this.url + " Username: " + this.username + " Password: " + this.password;
+  }
 }
