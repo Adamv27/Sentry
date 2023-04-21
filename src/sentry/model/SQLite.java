@@ -185,7 +185,19 @@ public class SQLite {
   public static void main(String[] args) {
     //addNewUser("jake", "test");
     //addNewUser("Adam", "12345");
-    //WebsiteAccount account = new WebsiteAccount("SENTRY.COM", "ADAM", "PASSWORD");
-    //addNewPassword(Encryptor.hash("Adam", "12345"), account);
+//    WebsiteAccount account = new WebsiteAccount("anoitoher", "Aa", "Padsfgvsdfgd");
+//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
+//    account = new WebsiteAccount("test", "Afsdf", "asdfasfdsaf");
+//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
+//    account = new WebsiteAccount("google.com", "ADa", "_____");
+//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
+//    account = new WebsiteAccount("nasa.gov", "3456354", "asdfgsadrgt");
+//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
+//    account = new WebsiteAccount("testing.org", "Adamv27", "!!!!!!!");
+//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
+//    WebsiteAccount account = new WebsiteAccount("asdgdhsdhsdfhg", "Adfgdfg7", "53463456!");
+//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
+//    account = new WebsiteAccount("URL", "USERNAME", "1231432");
+//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
   }
 }

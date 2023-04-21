@@ -7,11 +7,13 @@ import sentry.utils.VerticalFlowLayout;
 import sentry.view.components.RoundJButton;
 import sentry.view.components.RoundJPanel;
 import sentry.view.components.RoundJTextField;
+import sentry.view.components.ScrollingDisplay;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class MainPanel extends JPanel {
@@ -20,6 +22,13 @@ public class MainPanel extends JPanel {
 
   private JPanel dataPanel;
   private JPanel displayPanel;
+
+  private ScrollingDisplay scrollingDisplay;
+  private JPanel passwordPanel;
+
+  private ArrayList<WebsiteAccount> currentDisplayedWebsites;
+
+  private RoundJTextField searchBar;
   public MainPanel() {
     super(new BorderLayout());
 //    JPanel panel = new JPanel();
@@ -55,20 +64,29 @@ public class MainPanel extends JPanel {
     // Center left container to hold data and search bar
     RoundJPanel dataPanelContainer = new RoundJPanel(25);
     dataPanelContainer.setLayout(new BorderLayout());
-    //JPanel dataPanelContainer = new JPanel(new BorderLayout());
     dataPanelContainer.setMargins(20);
     dataPanelContainer.setBackground(Constants.MIDDLE_GROUND);
 
+    JPanel searchBar = createSearchBar(dataPanelContainer);
+    JPanel passwordDisplay = createPasswordDisplay(dataPanelContainer);
+
+    dataPanelContainer.add(searchBar, BorderLayout.NORTH);
+    dataPanelContainer.add(passwordDisplay, BorderLayout.CENTER);
+
+    dataPanel.add(dataPanelContainer, BorderLayout.CENTER);
+  }
+
+  private JPanel createSearchBar(JPanel container) {
     //Top center container to hold search bar and add button
     JPanel searchPanel = new JPanel();
     searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
     searchPanel.add(Box.createHorizontalGlue());
     searchPanel.add(Box.createHorizontalStrut(25));
-    searchPanel.setPreferredSize(new Dimension(dataPanelContainer.getWidth(), 50));
+    searchPanel.setPreferredSize(new Dimension(container.getWidth(), 50));
     searchPanel.setBackground(Constants.MIDDLE_GROUND);
 
     // Actual search bar
-    RoundJTextField searchBar = new RoundJTextField(8);
+    searchBar = new RoundJTextField(8);
     searchBar.setCaretColor(new Color(0x454545));
     searchBar.setPreferredSize(new Dimension(50, 50));
     searchPanel.add(searchBar);
@@ -83,27 +101,54 @@ public class MainPanel extends JPanel {
     searchPanel.add(addButton);
     searchPanel.add(Box.createHorizontalGlue());
 
-    // Bottom center container to hold scroll list of all websites and their passwords
-    JPanel passwordPanel = new JPanel(new BorderLayout());
-    passwordPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-    passwordPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
-    passwordPanel.setBackground(Constants.MIDDLE_GROUND);
+    return searchPanel;
+  }
 
-
-    dataPanelContainer.add(searchPanel, BorderLayout.NORTH);
-    dataPanelContainer.add(passwordPanel, BorderLayout.CENTER);
-
-    dataPanel.add(dataPanelContainer, BorderLayout.CENTER);
+  private JPanel createPasswordDisplay(JPanel container) {
+//    passwordPanel = new JPanel(new BorderLayout());
+//    passwordPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+//    passwordPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+//    passwordPanel.setBackground(Constants.MIDDLE_GROUND);
+//    passwordPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
+//    passwordPanel.setPreferredSize(new Dimension(container.getWidth(), container.getHeight()));
+//    scrollingDisplay = new ScrollingDisplay();
+//
+//
+//
+//    passwordPanel.add(scrollingDisplay.getScrollPane(), BorderLayout.CENTER);
+    scrollingDisplay = new ScrollingDisplay(container);
+    return scrollingDisplay;
   }
 
   public void back(ActionListener actionListener) {
     this.backButton.addActionListener(actionListener);
   }
 
+  public void search(ActionListener actionListener) {
+    this.searchBar.addActionListener(actionListener);
+  }
+
+  public void search(KeyListener keyListener) {
+    this.searchBar.addKeyListener(keyListener);
+  }
+
+  public String getSearchText() {
+    return this.searchBar.getText();
+  }
+
+
+
 
   public void showUserWebsiteAccounts(ArrayList<WebsiteAccount> userWebsiteAccounts) {
-    for (WebsiteAccount websiteAccount : userWebsiteAccounts) {
-      System.out.println(websiteAccount);
-    }
+    scrollingDisplay.update(userWebsiteAccounts);
+    revalidate();
+  }
+
+  public ArrayList<WebsiteAccount> getCurrentDisplayedWebsites() {
+    return this.currentDisplayedWebsites;
+  }
+
+  public void setCurrentDisplayedWebsites(ArrayList<WebsiteAccount> userWebsiteAccounts) {
+    this.currentDisplayedWebsites = userWebsiteAccounts;
   }
 }

@@ -1,0 +1,124 @@
+package sentry.view.components;
+
+import sentry.model.WebsiteAccount;
+import sentry.utils.Constants;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Random;
+
+public class ScrollingDisplay extends JPanel {
+  private ArrayList<WebsiteAccount> websites;
+  private final JScrollPane scrollPane;
+
+  private final JPanel contentPane;
+
+  public ScrollingDisplay(JPanel container) {
+    this(new ArrayList<>(), container);
+  }
+  public ScrollingDisplay(ArrayList<WebsiteAccount> websites, JPanel container) {
+    scrollPane = new JScrollPane(this);
+    setLayout(new BorderLayout());
+    setBorder(new EmptyBorder(10, 10, 10, 10));
+    //setPreferredSize(new Dimension(getWidth(), Integer.MAX_VALUE));
+    scrollPane.setBackground(Constants.MIDDLE_GROUND);
+    setBackground(Constants.MIDDLE_GROUND);
+    this.websites = websites;
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
+    contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+    contentPane.setBackground(Constants.MIDDLE_GROUND);
+
+    contentPane.add(Box.createVerticalGlue());
+    addScrollBarStyling();
+    addMovies();
+    contentPane.add(Box.createVerticalGlue());
+
+    setPreferredSize(new Dimension(container.getWidth(), container.getHeight()));
+
+  }
+  public JScrollPane getScrollPane() {
+    return scrollPane;
+  }
+
+
+  public void update(ArrayList<WebsiteAccount> websites) {
+    this.websites = websites;
+    contentPane.removeAll();
+    addMovies();
+  }
+  private void addMovies() {
+    for (WebsiteAccount website : websites) {
+      RoundJPanel websitePanel = createWebsitePanel(website);
+      contentPane.add(websitePanel);
+      contentPane.add(Box.createVerticalStrut(5));
+    }
+    scrollPane.setViewportView(contentPane);
+    add(scrollPane);
+  }
+
+  private RoundJPanel createWebsitePanel(WebsiteAccount website) {
+    RoundJPanel websitePanel = new RoundJPanel(18);
+    websitePanel.setLayout(new BoxLayout(websitePanel, BoxLayout.X_AXIS));
+    websitePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    websitePanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+    websitePanel.setBackground(Constants.LIGHT_GREY);
+    JLabel title = new JLabel("URL - " + website.getUrl());
+    title.setFont(Constants.TEXT_FONT.deriveFont(Font.PLAIN, 14));
+    title.setForeground(Color.WHITE);
+
+    websitePanel.setPreferredSize(new Dimension(300, 100));
+
+    websitePanel.add(Box.createHorizontalGlue());
+    websitePanel.add(title);
+    websitePanel.add(Box.createHorizontalGlue());
+
+
+
+    return websitePanel;
+  }
+
+  /**
+   * This method changes the scroll bars styling and makes it look cleaner.
+   * It removes The border, the scroll buttons, and it sets the bar to
+   * a solid black rectangle.
+   */
+  private void addScrollBarStyling() {
+    scrollPane.getVerticalScrollBar().setBackground(null);
+    scrollPane.getVerticalScrollBar().setBackground(Constants.LIGHT_GREY);
+
+    scrollPane.setPreferredSize(new Dimension(450, 350));
+    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    scrollPane.setBorder(null);
+    scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+      private final Dimension d = new Dimension();
+      @Override
+      protected void configureScrollBarColors() {
+        this.thumbColor = Color.BLACK;
+        this.decrButton = null;
+        this.incrButton = null;
+      }
+      @Override
+      protected JButton createDecreaseButton(int orientation) {
+        return new JButton() {
+          @Override public Dimension getPreferredSize() {
+            return d;
+          }
+        };
+      }
+      @Override
+      protected JButton createIncreaseButton(int orientation) {
+        return new JButton() {
+          @Override
+          public Dimension getPreferredSize() {
+            return d;
+          }
+        };
+      }
+    });
+  }
+}

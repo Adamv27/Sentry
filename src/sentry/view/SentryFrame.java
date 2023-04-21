@@ -2,6 +2,7 @@ package sentry.view;
 
 
 import sentry.controller.LoginController;
+import sentry.controller.MainPageController;
 import sentry.utils.Constants;
 import sentry.view.panels.LoginPanel;
 import sentry.view.panels.MainPanel;
@@ -35,7 +36,7 @@ public class SentryFrame extends JFrame {
 
     //Initialize all controllers
     LoginController loginController = new LoginController(loginPanel, mainPanel);
-
+    MainPageController mainPageController = new MainPageController(mainPanel);
     // Add each view panel to card layout
     add(loginPanel, "login");
     add(signUpPanel, "sign up");

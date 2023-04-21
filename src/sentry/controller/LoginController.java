@@ -2,8 +2,11 @@ package sentry.controller;
 
 
 import sentry.model.Backend;
+import sentry.model.WebsiteAccount;
 import sentry.view.panels.LoginPanel;
 import sentry.view.panels.MainPanel;
+
+import java.util.ArrayList;
 
 public class LoginController {
 
@@ -16,7 +19,10 @@ public class LoginController {
       String username = this.login.getUserName();
       String password = this.login.getPassword();
       if (attemptLogin()) {
-        mainPanel.showUserWebsiteAccounts(Backend.getUserWebsiteAccounts(username, password));
+        ArrayList<WebsiteAccount> userWebsiteAccounts = Backend.getUserWebsiteAccounts(username, password);
+        mainPanel.showUserWebsiteAccounts(userWebsiteAccounts);
+        mainPanel.setCurrentDisplayedWebsites(userWebsiteAccounts);
+
       }
     });
   }
