@@ -7,9 +7,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Random;
+
 
 public class ScrollingDisplay extends JPanel {
   private ArrayList<WebsiteAccount> websites;
@@ -21,37 +20,47 @@ public class ScrollingDisplay extends JPanel {
     this(new ArrayList<>(), container);
   }
   public ScrollingDisplay(ArrayList<WebsiteAccount> websites, JPanel container) {
+    this.websites = websites;
+    setBackground(Constants.MIDDLE_GROUND);
+
+
+    // Create scroll pane which holds panel containing websites
     scrollPane = new JScrollPane(this);
     setLayout(new BorderLayout());
     setBorder(new EmptyBorder(10, 10, 10, 10));
-    //setPreferredSize(new Dimension(getWidth(), Integer.MAX_VALUE));
     scrollPane.setBackground(Constants.MIDDLE_GROUND);
-    setBackground(Constants.MIDDLE_GROUND);
-    this.websites = websites;
+
+
+    // Content pane holds every website
     contentPane = new JPanel();
     contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
     contentPane.setBackground(Constants.MIDDLE_GROUND);
+    contentPane.add(Box.createVerticalGlue());
+    addWebsites();
+    contentPane.add(Box.createVerticalGlue());
 
-    contentPane.add(Box.createVerticalGlue());
+
     addScrollBarStyling();
-    addMovies();
-    contentPane.add(Box.createVerticalGlue());
 
     setPreferredSize(new Dimension(container.getWidth(), container.getHeight()));
 
   }
-  public JScrollPane getScrollPane() {
-    return scrollPane;
-  }
 
-
+  /*
+    Rebuilds scrolling display with new websites.
+   */
   public void update(ArrayList<WebsiteAccount> websites) {
     this.websites = websites;
     contentPane.removeAll();
-    addMovies();
+    addWebsites();
   }
-  private void addMovies() {
+
+  /*
+    Adds a panel containing the website URL for each
+    website in the display list.
+   */
+  private void addWebsites() {
     for (WebsiteAccount website : websites) {
       RoundJPanel websitePanel = createWebsitePanel(website);
       contentPane.add(websitePanel);
@@ -61,6 +70,12 @@ public class ScrollingDisplay extends JPanel {
     add(scrollPane);
   }
 
+
+  /**
+   *
+   * @param website website to be displayed in panel
+   * @return completed panel with styling and correct information
+   */
   private RoundJPanel createWebsitePanel(WebsiteAccount website) {
     RoundJPanel websitePanel = new RoundJPanel(18);
     websitePanel.setLayout(new BoxLayout(websitePanel, BoxLayout.X_AXIS));
@@ -71,14 +86,12 @@ public class ScrollingDisplay extends JPanel {
     title.setFont(Constants.TEXT_FONT.deriveFont(Font.PLAIN, 14));
     title.setForeground(Color.WHITE);
 
-    websitePanel.setPreferredSize(new Dimension(300, 100));
-
+    websitePanel.setPreferredSize(new Dimension(350, 100));
+    websitePanel.setMaximumSize(new Dimension(350, 100));
     websitePanel.add(Box.createHorizontalGlue());
     websitePanel.add(title);
     websitePanel.add(Box.createHorizontalGlue());
-
-
-
+    websitePanel.add(Box.createVerticalGlue());
     return websitePanel;
   }
 

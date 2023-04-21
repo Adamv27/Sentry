@@ -18,8 +18,6 @@ import java.util.ArrayList;
 
 public class MainPanel extends JPanel {
 
-  JButton backButton;
-
   private JPanel dataPanel;
   private JPanel displayPanel;
 
@@ -31,11 +29,6 @@ public class MainPanel extends JPanel {
   private RoundJTextField searchBar;
   public MainPanel() {
     super(new BorderLayout());
-//    JPanel panel = new JPanel();
-//    panel.setPreferredSize(new Dimension(100, 100));
-      backButton = new JButton("BACK");
-//
-//    add(panel);
 
     JPanel contentPanel = new JPanel();
     contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
@@ -105,24 +98,10 @@ public class MainPanel extends JPanel {
   }
 
   private JPanel createPasswordDisplay(JPanel container) {
-//    passwordPanel = new JPanel(new BorderLayout());
-//    passwordPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-//    passwordPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
-//    passwordPanel.setBackground(Constants.MIDDLE_GROUND);
-//    passwordPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
-//    passwordPanel.setPreferredSize(new Dimension(container.getWidth(), container.getHeight()));
-//    scrollingDisplay = new ScrollingDisplay();
-//
-//
-//
-//    passwordPanel.add(scrollingDisplay.getScrollPane(), BorderLayout.CENTER);
     scrollingDisplay = new ScrollingDisplay(container);
     return scrollingDisplay;
   }
 
-  public void back(ActionListener actionListener) {
-    this.backButton.addActionListener(actionListener);
-  }
 
   public void search(ActionListener actionListener) {
     this.searchBar.addActionListener(actionListener);

@@ -52,7 +52,6 @@ public class SentryFrame extends JFrame {
 
     loginPanel.signUp(e -> cardLayout.show(SentryFrame.this.getContentPane(), "sign up"));
 
-    mainPanel.back(e -> showLoginPanel());
     signUpPanel.back(e -> showLoginPanel());
 
 
