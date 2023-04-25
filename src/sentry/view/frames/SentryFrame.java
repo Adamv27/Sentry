@@ -10,9 +10,6 @@ import sentry.view.panels.SignUpPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 
 public class SentryFrame extends StyledFrame {

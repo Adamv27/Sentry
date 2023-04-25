@@ -34,17 +34,19 @@ public class SQLite {
   }
 
   private static void createTables() {
-    String usersSQL = "CREATE TABLE IF NOT EXISTS users (\n"
-                    + "   username text NOT NULL,\n"
-                    + "   user_id text PRIMARY KEY\n"
-                    + ");";
+    String usersSQL = """
+            CREATE TABLE IF NOT EXISTS users (
+               username text NOT NULL,
+               user_id text PRIMARY KEY
+            );""";
 
-    String websitesSQL = "CREATE TABLE IF NOT EXISTS websites (\n"
-                       + "   user_id text,\n"
-                       + "   url text NOT NULL,\n"
-                       + "   username text NOT NULL,\n"
-                       + "   password text NOT NULL\n"
-                       + ");";
+    String websitesSQL = """
+            CREATE TABLE IF NOT EXISTS websites (
+               user_id text,
+               url text NOT NULL,
+               username text NOT NULL,
+               password text NOT NULL
+            );""";
 
     try (Connection conn = DriverManager.getConnection(URL + "users.db");
          Statement stmt = conn.createStatement()) {
