@@ -9,6 +9,8 @@ public class SignUpPanel extends JPanel {
   JButton backButton;
   public SignUpPanel() {
     JPanel panel = new JPanel();
+
+
     panel.setPreferredSize(new Dimension(100, 100));
     backButton = new JButton("BACK");
     panel.add(backButton);

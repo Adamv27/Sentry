@@ -10,6 +10,9 @@ public class Constants {
   public static final Color LIGHT_GREY = new Color(0x333333);
   public static final Color LIGHT_GREEN = new Color(0x4E9F3D);
 
+  public static final Color TEXT_FOCUSED = Color.white;
+  public static final Color TEXT_UNFOCUSED = new Color(0x767676);
+
 
   public static final Font TEXT_FONT = ResourceLoader.getFont("cuyabra Regular");
   public static final Font TITLE_FONT = ResourceLoader.getFont("Bord Demo");

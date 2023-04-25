@@ -1,4 +1,4 @@
-package sentry.view;
+package sentry.view.frames;
 
 
 import sentry.controller.LoginController;
@@ -10,19 +10,18 @@ import sentry.view.panels.SignUpPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 
-public class SentryFrame extends JFrame {
+public class SentryFrame extends StyledFrame {
 
   private final CardLayout cardLayout;
 
   // PUT THESE IN CONSTANTS
   private final int WIDTH = 600;
   private final int HEIGHT = 450;
-
-  private Point initialClick;
 
   public SentryFrame() {
 
@@ -31,7 +30,7 @@ public class SentryFrame extends JFrame {
     SignUpPanel signUpPanel = new SignUpPanel();
     MainPanel mainPanel = new MainPanel();
 
-    styleFrame();
+    setPreferredSize(new Dimension(this.WIDTH, this.HEIGHT));
     setLayout(cardLayout);
 
     //Initialize all controllers
@@ -62,35 +61,6 @@ public class SentryFrame extends JFrame {
     setVisible(true);
   }
 
-
-  private void styleFrame() {
-    // Remove default frame to create custom one
-    setUndecorated(true);
-    setPreferredSize(new Dimension(this.WIDTH, this.HEIGHT));
-
-    addMouseListener(new MouseAdapter() {
-      @Override
-      public void mousePressed(MouseEvent e) {
-        initialClick = e.getPoint();
-        getComponentAt(initialClick);
-      }
-    });
-
-    // Add a mouse motion listener to the title bar
-    addMouseMotionListener(new MouseAdapter() {
-      @Override
-      public void mouseDragged(MouseEvent e) {
-        int thisX = getLocation().x;
-        int thisY = getLocation().y;
-        int xMoved = (thisX + e.getX()) - (thisX + initialClick.x);
-        int yMoved = (thisY + e.getY()) - (thisY + initialClick.y);
-        int X = thisX + xMoved;
-        int Y = thisY + yMoved;
-        setLocation(X, Y);
-      }
-    });
-  }
-
   private void showLoginPanel() {
     setSize(WIDTH, HEIGHT);
     cardLayout.show(SentryFrame.this.getContentPane(), "login");
@@ -98,7 +68,7 @@ public class SentryFrame extends JFrame {
   }
 
 
-  private void showMainPanel() {
+  public void showMainPanel() {
     setSize(Constants.MAIN_FRAME_WIDTH, Constants.MAIN_FRAME_HEIGHT);
     cardLayout.show(SentryFrame.this.getContentPane(), "stored passwords");
     setLocationRelativeTo(null);

@@ -7,6 +7,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -16,13 +19,15 @@ public class ScrollingDisplay extends JPanel {
 
   private final JPanel contentPane;
 
+  private ArrayList<JPanel> panels;
+
   public ScrollingDisplay(JPanel container) {
     this(new ArrayList<>(), container);
   }
   public ScrollingDisplay(ArrayList<WebsiteAccount> websites, JPanel container) {
     this.websites = websites;
+    this.panels = new ArrayList<>();
     setBackground(Constants.MIDDLE_GROUND);
-
 
     // Create scroll pane which holds panel containing websites
     scrollPane = new JScrollPane(this);
@@ -44,7 +49,6 @@ public class ScrollingDisplay extends JPanel {
     addScrollBarStyling();
 
     setPreferredSize(new Dimension(container.getWidth(), container.getHeight()));
-
   }
 
   /*
@@ -52,8 +56,21 @@ public class ScrollingDisplay extends JPanel {
    */
   public void update(ArrayList<WebsiteAccount> websites) {
     this.websites = websites;
+    this.panels = new ArrayList<>();
     contentPane.removeAll();
     addWebsites();
+  }
+
+  public void showData(MouseListener mouseListener) {
+    panels.forEach(panel -> panel.addMouseListener(mouseListener));
+  }
+
+  public WebsiteAccount getWebsiteAccount(JPanel panel) {
+    if (panels.contains(panel)) {
+      int index = panels.indexOf(panel);
+      return websites.get(index);
+    }
+    return null;
   }
 
   /*
@@ -63,6 +80,7 @@ public class ScrollingDisplay extends JPanel {
   private void addWebsites() {
     for (WebsiteAccount website : websites) {
       RoundJPanel websitePanel = createWebsitePanel(website);
+      panels.add(websitePanel);
       contentPane.add(websitePanel);
       contentPane.add(Box.createVerticalStrut(5));
     }

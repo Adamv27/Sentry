@@ -139,9 +139,7 @@ public class SQLite {
     }
   }
 
-  public static ArrayList<WebsiteAccount> getUserWebsiteAccounts(String username, String password) {
-    String userID = Encryptor.hash(username, password);
-
+  public static ArrayList<WebsiteAccount> getUserWebsiteAccounts(String userID) {
     try (Connection conn = DriverManager.getConnection(URL + "websites.db")) {
       PreparedStatement stmt = conn.prepareStatement("SELECT url, username, password FROM websites WHERE user_id=?");
 
@@ -152,7 +150,7 @@ public class SQLite {
       while (rs.next()) {
         String url = rs.getString(1);
         String websiteUsername = rs.getString(2);
-        String websitePassword = rs.getString(3);
+        String websitePassword = Encryptor.decryptPassword(rs.getString(3));
         data.add(new WebsiteAccount(url, websiteUsername, websitePassword));
       }
       return data;

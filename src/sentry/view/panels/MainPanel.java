@@ -1,9 +1,10 @@
 package sentry.view.panels;
 
 
+import sentry.controller.MainPageController;
 import sentry.model.WebsiteAccount;
 import sentry.utils.Constants;
-import sentry.utils.VerticalFlowLayout;
+
 import sentry.view.components.RoundJButton;
 import sentry.view.components.RoundJPanel;
 import sentry.view.components.RoundJTextField;
@@ -14,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class MainPanel extends JPanel {
@@ -24,27 +26,43 @@ public class MainPanel extends JPanel {
   private ScrollingDisplay scrollingDisplay;
   private JPanel passwordPanel;
 
+  private JButton addButton;
+
   private ArrayList<WebsiteAccount> currentDisplayedWebsites;
 
   private RoundJTextField searchBar;
   public MainPanel() {
     super(new BorderLayout());
 
+    TitleBar titleBar = new TitleBar();
+    titleBar.setOnClose(e -> System.exit(0));
+    add(titleBar, BorderLayout.NORTH);
+
     JPanel contentPanel = new JPanel();
     contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 
 
-    displayPanel = new JPanel(new BorderLayout());
-    displayPanel.setBackground(Constants.PANEL_BACKGROUND);
-
     createDataPanel();
+    createDisplayPanel();
 
     contentPanel.add(dataPanel);
     contentPanel.add(displayPanel);
 
     add(contentPanel, BorderLayout.CENTER);
+  }
 
-    add(new TitleBar(), BorderLayout.NORTH);
+  private void createDisplayPanel() {
+    displayPanel = new JPanel(new BorderLayout());
+    displayPanel.setBackground(Constants.PANEL_BACKGROUND);
+    displayPanel.setBorder(new EmptyBorder(0, 20, 20, 20));
+
+    RoundJPanel displayPanelContainer = new RoundJPanel(25);
+    displayPanelContainer.setLayout(new BorderLayout());
+    displayPanelContainer.setMargins(20);
+    displayPanelContainer.setBackground(Constants.MIDDLE_GROUND);
+
+
+    displayPanel.add(displayPanelContainer, BorderLayout.CENTER);
   }
 
   public void createDataPanel() {
@@ -79,7 +97,7 @@ public class MainPanel extends JPanel {
     searchPanel.setBackground(Constants.MIDDLE_GROUND);
 
     // Actual search bar
-    searchBar = new RoundJTextField(8);
+    searchBar = new RoundJTextField(8, "Search");
     searchBar.setCaretColor(new Color(0x454545));
     searchBar.setPreferredSize(new Dimension(50, 50));
     searchPanel.add(searchBar);
@@ -89,7 +107,7 @@ public class MainPanel extends JPanel {
     searchPanel.add(Box.createHorizontalStrut(5));
 
     // Button to add new passwords
-    JButton addButton = new RoundJButton("+");
+    addButton = new RoundJButton("+");
     addButton.setFont(Constants.TEXT_FONT.deriveFont(Font.BOLD, 25));
     searchPanel.add(addButton);
     searchPanel.add(Box.createHorizontalGlue());
@@ -111,15 +129,26 @@ public class MainPanel extends JPanel {
     this.searchBar.addKeyListener(keyListener);
   }
 
+
+  public void showData(MouseListener mouseListener) {
+    this.scrollingDisplay.showData(mouseListener);
+  }
+
+  public void showPanel(JPanel panel) {
+    WebsiteAccount websiteAccount = this.scrollingDisplay.getWebsiteAccount(panel);
+    System.out.println(websiteAccount);
+  }
+  public void addPassword(ActionListener actionListener) {
+    this.addButton.addActionListener(actionListener);
+  }
   public String getSearchText() {
     return this.searchBar.getText();
   }
 
 
-
-
   public void showUserWebsiteAccounts(ArrayList<WebsiteAccount> userWebsiteAccounts) {
     scrollingDisplay.update(userWebsiteAccounts);
+    MainPageController.updatePanelClickListener(this);
     revalidate();
   }
 

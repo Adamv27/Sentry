@@ -2,19 +2,22 @@ package sentry.controller;
 
 
 import sentry.model.WebsiteAccount;
+import sentry.view.frames.AddPasswordFrame;
 import sentry.view.panels.MainPanel;
 
+import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class MainPageController {
-
   public MainPageController(MainPanel mainPanel) {
-    mainPanel.search(e -> {
-      System.out.println(mainPanel.getSearchText());
-    });
+
+    mainPanel.search(e -> System.out.println(mainPanel.getSearchText()));
+
     mainPanel.search(new KeyAdapter() {
       @Override
       public void keyPressed(KeyEvent e) {
@@ -48,6 +51,42 @@ public class MainPageController {
                 .collect(Collectors.toCollection(ArrayList::new));
 
         mainPanel.showUserWebsiteAccounts(filteredWebsites);
+      }
+    });
+
+    mainPanel.addPassword(e -> {
+      AddPasswordFrame addPasswordFrame = new AddPasswordFrame(mainPanel);
+      addPasswordFrame.addPassword(click -> addPasswordFrame.dispose());
+    });
+  }
+
+  public static void updatePanelClickListener(MainPanel mainPanel) {
+    mainPanel.showData(new MouseListener() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        if (e.getComponent() instanceof JPanel) {
+          mainPanel.showPanel((JPanel) e.getComponent());
+        }
+      }
+
+      @Override
+      public void mousePressed(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mouseEntered(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e) {
+
       }
     });
   }

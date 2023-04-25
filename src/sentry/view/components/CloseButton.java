@@ -1,10 +1,10 @@
 package sentry.view.components;
 
 import sentry.utils.Constants;
-import sentry.utils.ResourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -17,7 +17,6 @@ public class CloseButton extends JButton {
     setFocusable(false);
     setForeground(Color.WHITE);
     //setContentAreaFilled(false);
-    addActionListener(e -> System.exit(0));
     setHorizontalAlignment(SwingConstants.CENTER);
     setPreferredSize(new Dimension(30, 30));
 
@@ -52,6 +51,8 @@ public class CloseButton extends JButton {
     });
   }
 
-
+  public void close(ActionListener actionListener) {
+    addActionListener(actionListener);
+  }
 
 }

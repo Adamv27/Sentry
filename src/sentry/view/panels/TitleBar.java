@@ -31,4 +31,8 @@ public class TitleBar extends JPanel {
     setBackground(Constants.LIGHT_GREEN);
     buttonPanel.setBackground(Constants.PANEL_BACKGROUND);
   }
+
+  public void setOnClose(ActionListener actionListener) {
+    closeButton.close(actionListener);
+  }
 }

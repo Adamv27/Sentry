@@ -2,10 +2,10 @@ package sentry.model;
 
 import sentry.utils.Encryptor;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class Backend {
+  private static String currentLoggedInUser;
   public static boolean isValidLogin(String username, String password) {
     username = username.replaceAll("\\s+", "");
     password = password.replaceAll("\\s+", "");
@@ -14,7 +14,19 @@ public class Backend {
       return false;
     }
 
-    return SQLite.isValidLogin(username, password);
+    if (SQLite.isValidLogin(username, password)) {
+      login(Encryptor.hash(username, password));
+      return true;
+    }
+    return false;
+  }
+
+  private static void login(String userID) {
+    currentLoggedInUser = userID;
+  }
+
+  private void logout() {
+    currentLoggedInUser = null;
   }
 
   public static boolean addNewUser(String username, String password) {
@@ -28,8 +40,20 @@ public class Backend {
   }
 
 
-  public static ArrayList<WebsiteAccount> getUserWebsiteAccounts (String username, String password) {
-    return SQLite.getUserWebsiteAccounts(username, password);
+  public static ArrayList<WebsiteAccount> getUserWebsiteAccounts() {
+    ArrayList<WebsiteAccount> websiteAccounts = new ArrayList<>();
+
+    if (currentLoggedInUser != null) {
+      websiteAccounts = SQLite.getUserWebsiteAccounts(currentLoggedInUser);
+    }
+    return websiteAccounts;
+  }
+
+  public static boolean addNewPassword(WebsiteAccount websiteAccount) {
+    if (currentLoggedInUser == null) {
+         return false;
+    }
+    return SQLite.addNewPassword(currentLoggedInUser, websiteAccount);
   }
 
   public static void main(String[] args) {

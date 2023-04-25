@@ -6,6 +6,8 @@ import sentry.model.WebsiteAccount;
 import sentry.view.panels.LoginPanel;
 import sentry.view.panels.MainPanel;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class LoginController {
@@ -14,15 +16,30 @@ public class LoginController {
   private MainPanel mainPanel;
   public LoginController(LoginPanel login, MainPanel mainPanel) {
     this.login = login;
+    this.mainPanel = mainPanel;
 
     this.login.login(e -> {
-      String username = this.login.getUserName();
-      String password = this.login.getPassword();
       if (attemptLogin()) {
-        ArrayList<WebsiteAccount> userWebsiteAccounts = Backend.getUserWebsiteAccounts(username, password);
-        mainPanel.showUserWebsiteAccounts(userWebsiteAccounts);
-        mainPanel.setCurrentDisplayedWebsites(userWebsiteAccounts);
+        login();
+      }
+    });
 
+    this.login.login(new KeyListener() {
+      @Override
+      public void keyTyped(KeyEvent e) {
+        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+          if (attemptLogin()) {
+            login();
+          }
+        }
+      }
+
+      @Override
+      public void keyPressed(KeyEvent e) {
+      }
+
+      @Override
+      public void keyReleased(KeyEvent e) {
       }
     });
   }
@@ -30,7 +47,13 @@ public class LoginController {
   public boolean attemptLogin() {
     String username = this.login.getUserName();
     String password = this.login.getPassword();
-
+    System.out.println("LOGGING IN - USERNAME: " + username + " PASSWORD: " + password);
     return Backend.isValidLogin(username, password);
+  }
+
+  private void login() {
+    ArrayList<WebsiteAccount> userWebsiteAccounts = Backend.getUserWebsiteAccounts();
+    mainPanel.showUserWebsiteAccounts(userWebsiteAccounts);
+    mainPanel.setCurrentDisplayedWebsites(userWebsiteAccounts);
   }
 }

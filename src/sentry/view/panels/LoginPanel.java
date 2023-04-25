@@ -3,17 +3,18 @@ package sentry.view.panels;
 import sentry.utils.Constants;
 import sentry.utils.VerticalFlowLayout;
 import sentry.view.components.RoundJButton;
-import sentry.view.components.RoundJPasswordField;
 import sentry.view.components.RoundJTextField;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+
 public class LoginPanel extends JPanel {
   private JPanel panel;
 
-  private JTextField usernameTextField;
-  private JPasswordField passwordField;
+  private RoundJTextField usernameTextField;
+  private RoundJTextField passwordField;
 
   private JButton loginButton;
   private JButton signupButton;
@@ -25,7 +26,10 @@ public class LoginPanel extends JPanel {
 
     addStyle();
 
-    add(new TitleBar(), BorderLayout.NORTH);
+    TitleBar titleBar = new TitleBar();
+    titleBar.setOnClose(e -> System.exit(0));
+    add(titleBar, BorderLayout.NORTH);
+
     createTitle();
     createFields();
     createLoginButton();
@@ -49,12 +53,24 @@ public class LoginPanel extends JPanel {
     loginButton.addActionListener(actionListener);
   }
 
+  public void login(KeyListener keyListener) {
+    this.usernameTextField.addKeyListener(keyListener);
+    this.passwordField.addKeyListener(keyListener);
+  }
   public String getUserName() {
-    return this.usernameTextField.getText();
+    String text = this.usernameTextField.getText();
+    if (text.equals(usernameTextField.getPlaceholder())) {
+      return "";
+    }
+    return text;
   }
 
   public String getPassword() {
-    return new String(this.passwordField.getPassword());
+    String text = this.passwordField.getText();
+    if (text.equals(passwordField.getPlaceholder())) {
+      return "";
+    }
+    return text;
   }
 
   private void addStyle() {
@@ -85,7 +101,7 @@ public class LoginPanel extends JPanel {
     fieldPanel.setLayout(verticalFlowLayout);
 
 
-    usernameTextField = new RoundJTextField(22);
+    usernameTextField = new RoundJTextField(22, "Username");
     Font font = Constants.TEXT_FONT.deriveFont(Font.PLAIN, 18);
     usernameTextField.setFont(font);
     usernameTextField.setBackground(Constants.MIDDLE_GROUND);
@@ -95,7 +111,8 @@ public class LoginPanel extends JPanel {
     fieldPanel.add(usernameTextField);
 
 
-    passwordField = new RoundJPasswordField(22);
+    passwordField = new RoundJTextField(22, "Password");
+    passwordField.hideText(true);
     passwordField.setFont(font);
     passwordField.setBackground(Constants.MIDDLE_GROUND);
     passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -110,7 +127,6 @@ public class LoginPanel extends JPanel {
 
   private void createLoginButton() {
     JPanel buttonPanel = new JPanel(new VerticalFlowLayout(VerticalFlowLayout.CENTER, VerticalFlowLayout.TOP));
-
 
     loginButton = new RoundJButton("LOGIN");
     loginButton.setPreferredSize(new Dimension(200, 50));
@@ -159,26 +175,5 @@ public class LoginPanel extends JPanel {
 
     panel.add(signupPanel);
 
-  }
-
-  private void createPasswordField() {
-
-    //     MOVE THIS CODE TO THE CONTROLLER CLASS
-//    passwordField.addKeyListener(new KeyListener() {
-//      @Override
-//      public void keyTyped(KeyEvent e) {
-//        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-//          //attemptLogin();
-//        }
-//      }
-//
-//      @Override
-//      public void keyPressed(KeyEvent e) {
-//      }
-//
-//      @Override
-//      public void keyReleased(KeyEvent e) {
-//      }
-//    });
   }
 }
