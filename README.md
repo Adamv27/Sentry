@@ -16,7 +16,6 @@
     <li><a href="#features"> ➤ Features</a></li>
     <li><a href="requirements"> ➤ Requirements</a></li>
     <li><a href="#project-structure"> ➤ Project Structure</a></li>
-    <li><a href="#getting-started"> ➤ Getting Started</a></li>
     <li><a href="#disclaimers"> ➤ Disclaimers</a></li>
   </ol>
 </details>
@@ -71,12 +70,6 @@ sentry/
 └── ...
 ```
 
-<!-- Getting Started -->
-<h2 id="getting-started"> :gear: Getting Started</h2>
-
-<p align="justify"> 
-  Getting started.
-</p>
 
 <!-- Disclaimers -->
 <h2 id="disclaimers"> ⚠️: Disclaimers</h2>
