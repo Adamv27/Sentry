@@ -29,6 +29,8 @@ public class Sentry {
 
           - Add password encryption
 
+          - On delete - clear right side display
+
         CLEAN UP:
           - Change method names in main view
           - Remove commented out code
