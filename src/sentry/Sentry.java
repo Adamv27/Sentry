@@ -15,9 +15,9 @@ public class Sentry {
       TO DO!!!!!!!!!!!!
         MAJOR:
           - Implement sign up page
-          - Implement add button
-          - Implement scroll display functionality
-              - Display current website and data on click
+
+          - Add multiple accounts per site
+
           - Add edit functionality
 
           - Add error messages
@@ -26,8 +26,6 @@ public class Sentry {
 
         MINOR:
           - Add log out button
-          - Fix one pixel white bar on right side
-          - Fix button highlighting
 
           - Add password encryption
 

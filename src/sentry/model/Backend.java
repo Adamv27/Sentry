@@ -2,6 +2,9 @@ package sentry.model;
 
 import sentry.utils.Encryptor;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Backend {
@@ -23,6 +26,13 @@ public class Backend {
 
   private static void login(String userID) {
     currentLoggedInUser = userID;
+  }
+
+  public static boolean deletePassword(WebsiteAccount account) {
+    if (currentLoggedInUser == null || account == null) {
+      return false;
+    }
+    return SQLite.deletePassword(currentLoggedInUser, account);
   }
 
   private void logout() {
@@ -54,6 +64,16 @@ public class Backend {
          return false;
     }
     return SQLite.addNewPassword(currentLoggedInUser, websiteAccount);
+  }
+
+  public static BufferedImage getUrlLogo(String url) {
+    try {
+      URL response = new URL("https://logo.clearbit.com/" + url);
+      return ImageIO.read(response);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
   public static void main(String[] args) {

@@ -1,6 +1,12 @@
 package sentry.utils;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.nio.Buffer;
+import java.util.HashMap;
 
 public class Constants {
   public static final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -21,6 +27,8 @@ public class Constants {
   public static int MAIN_FRAME_WIDTH;
   public static int MAIN_FRAME_HEIGHT;
 
+  public static HashMap<String, ImageIcon> ICONS;
+
   public static void setup() {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     int screenWidth = (int) screenSize.getWidth();
@@ -28,6 +36,11 @@ public class Constants {
 
     MAIN_FRAME_WIDTH = screenWidth / 2;
     MAIN_FRAME_HEIGHT = (int) (screenHeight / 1.5);
+
+    ICONS = ResourceLoader.getIcons();
+    if (ICONS == null) {
+      System.exit(1);
+    }
   }
 
   private static void registerFonts() {

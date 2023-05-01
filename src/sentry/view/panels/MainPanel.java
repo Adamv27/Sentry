@@ -2,13 +2,12 @@ package sentry.view.panels;
 
 
 import sentry.controller.MainPageController;
+import sentry.model.Backend;
 import sentry.model.WebsiteAccount;
 import sentry.utils.Constants;
 
-import sentry.view.components.RoundJButton;
-import sentry.view.components.RoundJPanel;
-import sentry.view.components.RoundJTextField;
-import sentry.view.components.ScrollingDisplay;
+import sentry.utils.ResourceLoader;
+import sentry.view.components.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,21 +15,25 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainPanel extends JPanel {
 
   private JPanel dataPanel;
-  private JPanel displayPanel;
-
-  private ScrollingDisplay scrollingDisplay;
-  private JPanel passwordPanel;
-
+  private RoundJTextField searchBar;
   private JButton addButton;
+  private ScrollingDisplay scrollingDisplay;
+
+  private JPanel displayPanel;
+  private RoundJPanel displayPanelContainer;
+  private IconButton deleteButton;
 
   private ArrayList<WebsiteAccount> currentDisplayedWebsites;
 
-  private RoundJTextField searchBar;
+  private WebsiteAccount currentlyDisplayedWebsite;
+
   public MainPanel() {
     super(new BorderLayout());
 
@@ -56,11 +59,10 @@ public class MainPanel extends JPanel {
     displayPanel.setBackground(Constants.PANEL_BACKGROUND);
     displayPanel.setBorder(new EmptyBorder(0, 20, 20, 20));
 
-    RoundJPanel displayPanelContainer = new RoundJPanel(25);
+    displayPanelContainer = new RoundJPanel(25);
     displayPanelContainer.setLayout(new BorderLayout());
     displayPanelContainer.setMargins(20);
     displayPanelContainer.setBackground(Constants.MIDDLE_GROUND);
-
 
     displayPanel.add(displayPanelContainer, BorderLayout.CENTER);
   }
@@ -108,7 +110,10 @@ public class MainPanel extends JPanel {
 
     // Button to add new passwords
     addButton = new RoundJButton("+");
+    addButton.setFocusPainted(false);
+    addButton.setContentAreaFilled(false);
     addButton.setFont(Constants.TEXT_FONT.deriveFont(Font.BOLD, 25));
+
     searchPanel.add(addButton);
     searchPanel.add(Box.createHorizontalGlue());
 
@@ -119,7 +124,6 @@ public class MainPanel extends JPanel {
     scrollingDisplay = new ScrollingDisplay(container);
     return scrollingDisplay;
   }
-
 
   public void search(ActionListener actionListener) {
     this.searchBar.addActionListener(actionListener);
@@ -135,12 +139,89 @@ public class MainPanel extends JPanel {
   }
 
   public void showPanel(JPanel panel) {
+    displayPanelContainer.removeAll();
     WebsiteAccount websiteAccount = this.scrollingDisplay.getWebsiteAccount(panel);
-    System.out.println(websiteAccount);
+    this.currentlyDisplayedWebsite = websiteAccount;
+
+    JPanel header = new JPanel(new BorderLayout());
+    header.setBackground(Constants.MIDDLE_GROUND);
+
+    BufferedImage logo = Backend.getUrlLogo(websiteAccount.getUrl());
+    ImageIcon icon = ResourceLoader.makeLogo(logo);
+    JLabel logoLabel = new JLabel(icon);
+
+    JLabel urlLabel = new JLabel(websiteAccount.getUrl());
+    urlLabel.setHorizontalAlignment(JLabel.CENTER);
+    urlLabel.setFont(Constants.TEXT_FONT.deriveFont(Font.BOLD, 32));
+    urlLabel.setForeground(Color.WHITE);
+
+    header.add(logoLabel, BorderLayout.WEST);
+    header.add(urlLabel);
+
+
+
+    JPanel infoPanel = new JPanel();
+    infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+    infoPanel.setBackground(Constants.MIDDLE_GROUND);
+
+    JLabel username = new JLabel("Username");
+    username.setFont(Constants.TEXT_FONT.deriveFont(Font.PLAIN, 14));
+    username.setForeground(Color.lightGray);
+    JLabel usernameLabel = new JLabel(websiteAccount.getUsername());
+    usernameLabel.setFont(Constants.TEXT_FONT);
+    usernameLabel.setForeground(Color.WHITE);
+
+    JLabel password = new JLabel("Password");
+    password.setFont(Constants.TEXT_FONT.deriveFont(Font.PLAIN, 14));
+    password.setForeground(Color.lightGray);
+    JLabel passwordLabel = new JLabel(websiteAccount.getPassword());
+    passwordLabel.setFont(Constants.TEXT_FONT);
+    passwordLabel.setForeground(Color.WHITE);
+
+    IconButton editButton = new IconButton(Constants.ICONS.get("edit"));
+    editButton.setHoverIcon(Constants.ICONS.get("edit_hover"));
+
+    deleteButton = new IconButton(Constants.ICONS.get("delete"));
+    deleteButton.setHoverIcon(Constants.ICONS.get("delete_hover"));
+    MainPageController.addDeleteButton(this);
+
+
+
+    infoPanel.add(Box.createVerticalStrut(25));
+    infoPanel.add(username);
+    infoPanel.add(Box.createVerticalStrut(5));
+    infoPanel.add(usernameLabel);
+    infoPanel.add(Box.createVerticalStrut(15));
+    infoPanel.add(password);
+    infoPanel.add(Box.createVerticalStrut(5));
+    infoPanel.add(passwordLabel);
+    infoPanel.add(Box.createVerticalStrut(15));
+    infoPanel.add(editButton);
+    infoPanel.add(deleteButton);
+
+
+    JPanel websiteAccountPanel = new JPanel(new BorderLayout());
+    websiteAccountPanel.setBackground(Constants.MIDDLE_GROUND);
+
+    websiteAccountPanel.add(header, BorderLayout.NORTH);
+    websiteAccountPanel.add(infoPanel, BorderLayout.CENTER);
+
+
+    websiteAccountPanel.setPreferredSize(new Dimension((int) displayPanelContainer.getPreferredSize().getWidth() - 40, displayPanelContainer.getHeight()));
+    displayPanelContainer.add(websiteAccountPanel, BorderLayout.CENTER);
+    revalidate();
   }
   public void addPassword(ActionListener actionListener) {
     this.addButton.addActionListener(actionListener);
   }
+
+  public void deletePassword(ActionListener actionListener) {
+    if (this.deleteButton == null) {
+      return;
+    }
+    this.deleteButton.addActionListener(actionListener);
+  }
+
   public String getSearchText() {
     return this.searchBar.getText();
   }
@@ -154,6 +235,10 @@ public class MainPanel extends JPanel {
 
   public ArrayList<WebsiteAccount> getCurrentDisplayedWebsites() {
     return this.currentDisplayedWebsites;
+  }
+
+  public WebsiteAccount getCurrentlyDisplayedWebsite() {
+    return this.currentlyDisplayedWebsite;
   }
 
   public void setCurrentDisplayedWebsites(ArrayList<WebsiteAccount> userWebsiteAccounts) {

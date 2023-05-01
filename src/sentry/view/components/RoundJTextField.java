@@ -51,6 +51,11 @@ public class RoundJTextField extends JPasswordField {
     return new String(getPassword());
   }
 
+  public boolean isEmpty() {
+    String str = new String(getPassword());
+    return str.equals(placeholder) || str.equals("");
+  }
+
   public String getPlaceholder() {
     return placeholder;
   }

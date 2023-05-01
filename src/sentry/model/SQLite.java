@@ -163,6 +163,24 @@ public class SQLite {
     }
   }
 
+
+  public static boolean deletePassword(String userID, WebsiteAccount account) {
+    try (Connection conn = DriverManager.getConnection(URL + "websites.db")) {
+      PreparedStatement stmt = conn.prepareStatement("DELETE FROM websites WHERE user_id=? AND url=? AND username=? AND password=?");
+
+      stmt.setString(1, userID);
+      stmt.setString(2, account.getUrl());
+      stmt.setString(3, account.getUsername());
+      stmt.setString(4, account.getPassword());
+      int rowsAffected = stmt.executeUpdate();
+      return rowsAffected > 0;
+
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+      return false;
+    }
+  }
+
   public static void printAllData() {
     try (Connection conn = DriverManager.getConnection(URL + "users.db")) {
       Statement stmt = conn.createStatement();

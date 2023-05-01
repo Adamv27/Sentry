@@ -4,6 +4,8 @@ import sentry.utils.Constants;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 
 public class RoundJButton extends JButton {
@@ -11,14 +13,42 @@ public class RoundJButton extends JButton {
 
   public RoundJButton(String text) {
     super(text);
-    this.setBackground(Constants.LIGHT_GREY);
+    this.setBackground(Constants.LIGHT_GREEN);
     this.setForeground(Color.WHITE);
     this.setFocusPainted(false);
+    this.setContentAreaFilled(false);
     setOpaque(false); // As suggested by @AVD in comment.
+
+    addMouseListener(new MouseListener() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mousePressed(MouseEvent e) {
+        setBackground(Constants.LIGHT_GREEN.darker());
+      }
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+        setBackground(Constants.LIGHT_GREEN);
+      }
+
+      @Override
+      public void mouseEntered(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e) {
+
+      }
+    });
   }
 
   protected void paintComponent(Graphics g) {
-    g.setColor(Constants.LIGHT_GREEN);
+    g.setColor(getBackground());
     g.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
     super.paintComponent(g);
   }

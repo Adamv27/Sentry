@@ -15,6 +15,11 @@ public class AddPasswordController {
       String username = addPasswordPanel.getUsername();
       String password = addPasswordPanel.getPassword();
 
+      // Move to backend
+      if (url.equals("") || username.equals("") || password.equals("")) {
+        return;
+      }
+
       WebsiteAccount websiteAccount = new WebsiteAccount(url, username, password);
 
       if (Backend.addNewPassword(websiteAccount)) {

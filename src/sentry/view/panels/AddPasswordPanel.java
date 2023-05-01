@@ -85,13 +85,22 @@ public class AddPasswordPanel extends JPanel {
   }
 
   public String getUrl() {
-    return this.urlField.getText();
+    if (urlField.isEmpty()) {
+      return "";
+    }
+    return urlField.getText();
   }
   public String getUsername() {
-    return this.usernameField.getText();
+    if (usernameField.isEmpty()) {
+      return "";
+    }
+    return usernameField.getText();
   }
   public String getPassword() {
-    return this.passwordField.getText();
+    if (passwordField.isEmpty()) {
+      return "";
+    }
+    return passwordField.getText();
   }
 
   public void close(ActionListener actionListener) {
