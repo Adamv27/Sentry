@@ -83,10 +83,9 @@ public class SQLite {
     try (Connection conn = DriverManager.getConnection(URL + "websites.db")) {
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, userID);
-      stmt.setString(2, websiteAccount.getUrl());
-      stmt.setString(3, websiteAccount.getUsername());
-      stmt.setString(4, Encryptor.encryptPassword(websiteAccount.getPassword()));
-
+      stmt.setString(2, Encryptor.encrypt(websiteAccount.getUrl()));
+      stmt.setString(3, Encryptor.encrypt(websiteAccount.getUsername()));
+      stmt.setString(4, Encryptor.encrypt(websiteAccount.getPassword()));
       stmt.executeUpdate();
       return true;
     } catch (SQLException e) {
@@ -148,9 +147,9 @@ public class SQLite {
 
       ArrayList<WebsiteAccount> data = new ArrayList<>();
       while (rs.next()) {
-        String url = rs.getString(1);
-        String websiteUsername = rs.getString(2);
-        String websitePassword = Encryptor.decryptPassword(rs.getString(3));
+        String url = Encryptor.decrypt(rs.getString(1));
+        String websiteUsername = Encryptor.decrypt(rs.getString(2));
+        String websitePassword = Encryptor.decrypt(rs.getString(3));
         data.add(new WebsiteAccount(url, websiteUsername, websitePassword));
       }
       return data;
@@ -167,9 +166,9 @@ public class SQLite {
       PreparedStatement stmt = conn.prepareStatement("DELETE FROM websites WHERE user_id=? AND url=? AND username=? AND password=?");
 
       stmt.setString(1, userID);
-      stmt.setString(2, account.getUrl());
-      stmt.setString(3, account.getUsername());
-      stmt.setString(4, account.getPassword());
+      stmt.setString(2, Encryptor.encrypt(account.getUrl()));
+      stmt.setString(3, Encryptor.encrypt(account.getUsername()));
+      stmt.setString(4, Encryptor.encrypt(account.getPassword()));
       int rowsAffected = stmt.executeUpdate();
       return rowsAffected > 0;
 
@@ -177,43 +176,5 @@ public class SQLite {
       System.out.println(e.getMessage());
       return false;
     }
-  }
-
-  public static void printAllData() {
-    try (Connection conn = DriverManager.getConnection(URL + "users.db")) {
-      Statement stmt = conn.createStatement();
-
-      ResultSet resultSet = stmt.executeQuery("SELECT * FROM users");
-
-      System.out.println();
-      while (resultSet.next()) {
-        System.out.println(resultSet.getString(1));
-        System.out.println(resultSet.getString(2));
-        System.out.println();
-      }
-      System.out.println();
-
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    }
-  }
-
-  public static void main(String[] args) {
-    //addNewUser("jake", "test");
-    //addNewUser("Adam", "12345");
-//    WebsiteAccount account = new WebsiteAccount("anoitoher", "Aa", "Padsfgvsdfgd");
-//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
-//    account = new WebsiteAccount("test", "Afsdf", "asdfasfdsaf");
-//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
-//    account = new WebsiteAccount("google.com", "ADa", "_____");
-//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
-//    account = new WebsiteAccount("nasa.gov", "3456354", "asdfgsadrgt");
-//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
-//    account = new WebsiteAccount("testing.org", "Adamv27", "!!!!!!!");
-//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
-//    WebsiteAccount account = new WebsiteAccount("asdgdhsdhsdfhg", "Adfgdfg7", "53463456!");
-//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
-//    account = new WebsiteAccount("URL", "USERNAME", "1231432");
-//    addNewPassword(Encryptor.hash("Adam", "12345"), account);
   }
 }

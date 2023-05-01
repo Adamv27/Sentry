@@ -1,30 +1,24 @@
 package sentry.utils;
 
 import com.google.common.hash.Hashing;
-
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class Encryptor {
-  private static final byte[] SALT = "5937612501".getBytes();
-  private static final int ITERATION_COUNT = 10000;
-  private static final int KEY_LENGTH = 128;
-
   public static String hash(String username, String password) {
     return Hashing.sha256()
             .hashString(username + password, StandardCharsets.UTF_8)
             .toString();
   }
 
-  public static String encryptPassword(String password) {
-    return password;
+  public static String encrypt(String password) {
+    byte[] encryptArray = Base64.getEncoder().encode(password.getBytes());
+    return new String(encryptArray, StandardCharsets.UTF_8);
   }
 
 
-  public static String decryptPassword(String encryption) {
-    return encryption;
-  }
-
-
-  public static void main(String[] args) {
+  public static String decrypt(String encryption) {
+    byte[] decryptArray = Base64.getDecoder().decode(encryption.getBytes());
+    return new String(decryptArray, StandardCharsets.UTF_8);
   }
 }
