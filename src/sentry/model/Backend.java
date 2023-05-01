@@ -35,18 +35,20 @@ public class Backend {
     return SQLite.deletePassword(currentLoggedInUser, account);
   }
 
-  private void logout() {
-    currentLoggedInUser = null;
-  }
-
-  public static boolean addNewUser(String username, String password) {
+  public static boolean isValidCredentials(String username, String password, String confirmedPassword) {
     if (SQLite.userExists(username)) {
       System.out.println("This username is already taken");
       return false;
     }
+    return password.equals(confirmedPassword) && username.length() > 3 && password.length() > 3;
+  }
+
+  private void logout() {
+    currentLoggedInUser = null;
+  }
+
+  public static void addNewUser(String username, String password) {
     SQLite.addNewUser(username, password);
-    System.out.println("User: " + username + " has been added.");
-    return true;
   }
 
 

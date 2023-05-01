@@ -1,11 +1,7 @@
 package sentry.utils;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.nio.Buffer;
 import java.util.HashMap;
 
 public class Constants {
@@ -33,9 +29,9 @@ public class Constants {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     int screenWidth = (int) screenSize.getWidth();
     int screenHeight = (int) screenSize.getHeight();
-
-    MAIN_FRAME_WIDTH = screenWidth / 2;
-    MAIN_FRAME_HEIGHT = (int) (screenHeight / 1.5);
+    System.out.println("WIDTH: " + screenWidth + " HEIGHT: " + screenHeight);
+    MAIN_FRAME_WIDTH = 800;
+    MAIN_FRAME_HEIGHT = 540;
 
     ICONS = ResourceLoader.getIcons();
     if (ICONS == null) {

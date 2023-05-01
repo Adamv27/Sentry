@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 
 public class LoginPanel extends JPanel {
-  private JPanel panel;
+  private final JPanel panel;
 
   private RoundJTextField usernameTextField;
   private RoundJTextField passwordField;
@@ -159,6 +159,7 @@ public class LoginPanel extends JPanel {
     signupButton.setBackground(Constants.PANEL_BACKGROUND);
     signupButton.setBorder(null);
     signupButton.setFocusPainted(false);
+    signupButton.setContentAreaFilled(false);
     signupButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     signupButton.setAlignmentY( (Component.BOTTOM_ALIGNMENT - 0.35f));
     //setOpaque(false);
