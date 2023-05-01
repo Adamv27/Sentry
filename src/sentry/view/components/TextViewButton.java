@@ -21,14 +21,13 @@ public class TextViewButton {
     g.drawImage(drawImage, x, y, null);
   }
 
-  public boolean wasClicked(Point location, Point click) {
+  public boolean contains(Point location, Point click) {
     int buttonWidth = location.x + image.getWidth(null);
     int buttonHeight = location.x + image.getHeight(null);
     return (click.x >= location.x && click.x <= buttonWidth) && (click.y >= location.y && click.y <= buttonHeight);
   }
 
   public void toggle() {
-    System.out.println(this.active);
     this.active = !this.active;
   }
 

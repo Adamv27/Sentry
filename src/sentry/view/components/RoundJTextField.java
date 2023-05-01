@@ -4,10 +4,7 @@ import sentry.utils.Constants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 
 public class RoundJTextField extends JPasswordField {
@@ -103,7 +100,7 @@ public class RoundJTextField extends JPasswordField {
       @Override
       public void mouseClicked(MouseEvent e) {
         Point location = new Point(getWidth() - 50, getHeight() / 4);
-        if (viewButton.wasClicked(location, e.getPoint())) {
+        if (viewButton.contains(location, e.getPoint())) {
           viewButton.toggle();
           setEchoChar(viewButton.getEchoChar());
           repaint();
@@ -122,12 +119,27 @@ public class RoundJTextField extends JPasswordField {
 
       @Override
       public void mouseEntered(MouseEvent e) {
-
       }
 
       @Override
       public void mouseExited(MouseEvent e) {
 
+      }
+    });
+
+    addMouseMotionListener(new MouseMotionListener() {
+      @Override
+      public void mouseDragged(MouseEvent e) {
+      }
+
+      @Override
+      public void mouseMoved(MouseEvent e) {
+        Cursor cursor = Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR);
+        Point location = new Point(getWidth() - 50, getHeight() / 4);
+        if (viewButton.contains(location, e.getPoint())) {
+          cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+        }
+        setCursor(cursor);
       }
     });
   }
