@@ -6,29 +6,32 @@ import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.Set;
 
 public class ResourceLoader {
   private static final String iconPath = "src/sentry/resources/icons/";
   private static final String fontPath = "src/sentry/resources/fonts/";
 
-  private static HashMap<String, Font> FONTS = new HashMap<>();
+  private static final HashMap<String, Font> FONTS = new HashMap<>();
 
+  /**
+   * Retrieve requested font given name
+   * @param fontName name of font
+   * @return Font
+   */
   public static Font getFont(String fontName) {
     return FONTS.get(fontName);
-  }
-
-  public static Set<String> getFontNames() {
-    return FONTS.keySet();
   }
 
   public static void load_resources() {
     loadFonts();
   }
 
+  /**
+   * Registers fonts to the graphics environment and adds
+   * them to a map
+   */
   private static void loadFonts() {
     try {
       GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -50,6 +53,11 @@ public class ResourceLoader {
     }
   }
 
+  /**
+   * Creates a single ImageIcon given a file
+   * @param iconFile path to icon file
+   * @return ImageIcon of loaded + scaled file
+   */
   private static ImageIcon getIcon(String iconFile) {
     try {
       BufferedImage originalImage = ImageIO.read(new File(iconPath + iconFile));
@@ -63,6 +71,11 @@ public class ResourceLoader {
     }
   }
 
+  /**
+   * Iterates through entire resources/icons/ folder adds ImageIcon to map with its
+   * filename as the key.
+   * @return map of all ImageIcons
+   */
   public static HashMap<String, ImageIcon> getIcons() {
     try {
       HashMap<String, ImageIcon> iconMap = new HashMap<>();
@@ -83,6 +96,12 @@ public class ResourceLoader {
     }
   }
 
+  /**
+   * Creates the rounded logo picture.
+   *
+   * @param image original square image of logo
+   * @return circular image of logo
+   */
   public static ImageIcon makeLogo(BufferedImage image) {
     int w = image.getWidth();
     int h = image.getHeight();

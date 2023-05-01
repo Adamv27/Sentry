@@ -17,7 +17,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class MainPanel extends JPanel {
 
@@ -54,6 +53,92 @@ public class MainPanel extends JPanel {
     add(contentPanel, BorderLayout.CENTER);
   }
 
+  /**
+   * Adds key listener to search bar
+   * @param keyListener key listener to listen for key presses
+   */
+  public void search(KeyListener keyListener) {
+    this.searchBar.addKeyListener(keyListener);
+  }
+
+
+  /**
+   * Add mouse listener to scrolling display to check for clicks requesting
+   * to show the information for a website.
+   * @param mouseListener mouse listener to listen for clicking
+   */
+  public void showData(MouseListener mouseListener) {
+    this.scrollingDisplay.showData(mouseListener);
+  }
+
+  /**
+   * Action listener added to the add button that opens
+   * up new GUI to add new password
+   * @param actionListener action listener to listen for button click
+   */
+  public void addPassword(ActionListener actionListener) {
+    this.addButton.addActionListener(actionListener);
+  }
+
+  /**
+   * Action listener added to the delete button to delete
+   * the currently displayed password
+   * @param actionListener action listener to listen for button click
+   */
+  public void deletePassword(ActionListener actionListener) {
+    if (this.deleteButton == null) {
+      return;
+    }
+    this.deleteButton.addActionListener(actionListener);
+  }
+
+  /**
+   * Get the current text in the search bar
+   * @return search bars text
+   */
+  public String getSearchText() {
+    return this.searchBar.getText();
+  }
+
+  /**
+   * Updates scrolling display and refreshes the main panel
+   * @param userWebsiteAccounts list of website accounts to display
+   */
+  public void showUserWebsiteAccounts(ArrayList<WebsiteAccount> userWebsiteAccounts) {
+    scrollingDisplay.update(userWebsiteAccounts);
+    MainPageController.updatePanelClickListener(this);
+    revalidate();
+  }
+
+  /**
+   * Retrieve list of all displayed websites.
+   * @return all currently displayed websites
+   */
+  public ArrayList<WebsiteAccount> getCurrentDisplayedWebsites() {
+    return this.currentDisplayedWebsites;
+  }
+
+  /**
+   * Retrieve the singular website displayed on the right hand side.
+   * @return website being displayed in the display panel
+   */
+  public WebsiteAccount getCurrentlyDisplayedWebsite() {
+    return this.currentlyDisplayedWebsite;
+  }
+
+  /**
+   * Update stored list of websites that are being displayed
+   * @param userWebsiteAccounts list of websites
+   */
+  public void setCurrentDisplayedWebsites(ArrayList<WebsiteAccount> userWebsiteAccounts) {
+    this.currentDisplayedWebsites = userWebsiteAccounts;
+  }
+
+  /**
+   * The display panel is the rounded panel on the right hand side of the main screen.
+   * Its purpose is to hold the JPanel containing the information of the website currently
+   * being displayed.
+   */
   private void createDisplayPanel() {
     displayPanel = new JPanel(new BorderLayout());
     displayPanel.setBackground(Constants.PANEL_BACKGROUND);
@@ -67,7 +152,11 @@ public class MainPanel extends JPanel {
     displayPanel.add(displayPanelContainer, BorderLayout.CENTER);
   }
 
-  public void createDataPanel() {
+  /**
+   * The data panel is the rounded panel on the left hand side of the main screen.
+   * It holds the search bar, add button, and scrolling display of available websites.
+   */
+  private void createDataPanel() {
 
     // Entire Left side of the application
     dataPanel = new JPanel(new BorderLayout());
@@ -89,6 +178,12 @@ public class MainPanel extends JPanel {
     dataPanel.add(dataPanelContainer, BorderLayout.CENTER);
   }
 
+  /**
+   * Creates JPanel holding search bar and add button.
+   *
+   * @param container parent container
+   * @return JPanel containing search bar and add button
+   */
   private JPanel createSearchBar(JPanel container) {
     //Top center container to hold search bar and add button
     JPanel searchPanel = new JPanel();
@@ -120,49 +215,60 @@ public class MainPanel extends JPanel {
     return searchPanel;
   }
 
+  /**
+   * Creates a new scrolling display.
+   *
+   * @param container parent container
+   * @return finished scrolling display
+   */
   private JPanel createPasswordDisplay(JPanel container) {
     scrollingDisplay = new ScrollingDisplay(container);
     return scrollingDisplay;
   }
 
-  public void search(ActionListener actionListener) {
-    this.searchBar.addActionListener(actionListener);
-  }
-
-  public void search(KeyListener keyListener) {
-    this.searchBar.addKeyListener(keyListener);
-  }
-
-
-  public void showData(MouseListener mouseListener) {
-    this.scrollingDisplay.showData(mouseListener);
-  }
-
+  /**
+   * If a website is clicked on the right side, all of its information is displayed
+   * on the left
+   * @param panel panel that was clicked
+   */
   public void showPanel(JPanel panel) {
     displayPanelContainer.removeAll();
+    repaint();
+    if (panel == null) {
+      return;
+    }
+
+    // Get the corresponding website account of the panel that was clicked
     WebsiteAccount websiteAccount = this.scrollingDisplay.getWebsiteAccount(panel);
     this.currentlyDisplayedWebsite = websiteAccount;
 
+    // The header panel holds the websites logo and title
     JPanel header = new JPanel(new BorderLayout());
     header.setBackground(Constants.MIDDLE_GROUND);
 
     BufferedImage logo = Backend.getUrlLogo(websiteAccount.getUrl());
-    ImageIcon icon = ResourceLoader.makeLogo(logo);
-    JLabel logoLabel = new JLabel(icon);
+    if (logo != null) {
+      ImageIcon icon = ResourceLoader.makeLogo(logo);
+      JLabel logoLabel = new JLabel(icon);
+      header.add(logoLabel, BorderLayout.WEST);
+    }
 
-    JLabel urlLabel = new JLabel(websiteAccount.getUrl());
-    urlLabel.setHorizontalAlignment(JLabel.CENTER);
-    urlLabel.setFont(Constants.TEXT_FONT.deriveFont(Font.BOLD, 32));
-    urlLabel.setForeground(Color.WHITE);
-
-    header.add(logoLabel, BorderLayout.WEST);
-    header.add(urlLabel);
-
-
+    JLabel siteLabel = new JLabel(websiteAccount.getWebsiteName());
+    siteLabel.setHorizontalAlignment(JLabel.CENTER);
+    siteLabel.setFont(Constants.TEXT_FONT.deriveFont(Font.BOLD, 32));
+    siteLabel.setForeground(Color.WHITE);
+    header.add(siteLabel, BorderLayout.CENTER);
 
     JPanel infoPanel = new JPanel();
     infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
     infoPanel.setBackground(Constants.MIDDLE_GROUND);
+
+    JLabel url = new JLabel("URL");
+    url.setFont(Constants.TEXT_FONT.deriveFont(Font.PLAIN, 12));
+    url.setForeground(Color.lightGray);
+    JLabel urlLabel = new JLabel(websiteAccount.getUrl());
+    urlLabel.setFont(Constants.TEXT_FONT);
+    urlLabel.setForeground(Color.WHITE);
 
     JLabel username = new JLabel("Username");
     username.setFont(Constants.TEXT_FONT.deriveFont(Font.PLAIN, 14));
@@ -185,9 +291,11 @@ public class MainPanel extends JPanel {
     deleteButton.setHoverIcon(Constants.ICONS.get("delete_hover"));
     MainPageController.addDeleteButton(this);
 
-
-
     infoPanel.add(Box.createVerticalStrut(25));
+    infoPanel.add(url);
+    infoPanel.add(Box.createVerticalStrut(5));
+    infoPanel.add(urlLabel);
+    infoPanel.add(Box.createVerticalStrut(15));
     infoPanel.add(username);
     infoPanel.add(Box.createVerticalStrut(5));
     infoPanel.add(usernameLabel);
@@ -208,40 +316,8 @@ public class MainPanel extends JPanel {
 
 
     websiteAccountPanel.setPreferredSize(new Dimension((int) displayPanelContainer.getPreferredSize().getWidth() - 40, displayPanelContainer.getHeight()));
+
     displayPanelContainer.add(websiteAccountPanel, BorderLayout.CENTER);
     revalidate();
-  }
-  public void addPassword(ActionListener actionListener) {
-    this.addButton.addActionListener(actionListener);
-  }
-
-  public void deletePassword(ActionListener actionListener) {
-    if (this.deleteButton == null) {
-      return;
-    }
-    this.deleteButton.addActionListener(actionListener);
-  }
-
-  public String getSearchText() {
-    return this.searchBar.getText();
-  }
-
-
-  public void showUserWebsiteAccounts(ArrayList<WebsiteAccount> userWebsiteAccounts) {
-    scrollingDisplay.update(userWebsiteAccounts);
-    MainPageController.updatePanelClickListener(this);
-    revalidate();
-  }
-
-  public ArrayList<WebsiteAccount> getCurrentDisplayedWebsites() {
-    return this.currentDisplayedWebsites;
-  }
-
-  public WebsiteAccount getCurrentlyDisplayedWebsite() {
-    return this.currentlyDisplayedWebsite;
-  }
-
-  public void setCurrentDisplayedWebsites(ArrayList<WebsiteAccount> userWebsiteAccounts) {
-    this.currentDisplayedWebsites = userWebsiteAccounts;
   }
 }

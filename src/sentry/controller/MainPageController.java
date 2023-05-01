@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 public class MainPageController {
   public MainPageController(MainPanel mainPanel) {
 
-    mainPanel.search(e -> System.out.println(mainPanel.getSearchText()));
-
     mainPanel.search(new KeyAdapter() {
       @Override
       public void keyPressed(KeyEvent e) {
@@ -67,12 +65,12 @@ public class MainPageController {
         ArrayList<WebsiteAccount> currentWebsites = mainPanel.getCurrentDisplayedWebsites();
         currentWebsites.remove(account);
         mainPanel.showUserWebsiteAccounts(currentWebsites);
+        mainPanel.showPanel(null);
       }
     });
   }
 
   public static void addEditButton(MainPanel mainPanel) {
-
   }
 
   public static void updatePanelClickListener(MainPanel mainPanel) {

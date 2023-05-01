@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 
 public class AddPasswordPanel extends JPanel {
 
-  private JPanel panel;
+  private final JPanel panel;
 
   private RoundJTextField urlField;
   private RoundJTextField usernameField;
@@ -26,19 +26,12 @@ public class AddPasswordPanel extends JPanel {
     panel.setBackground(Constants.PANEL_BACKGROUND);
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-    //addStyle();
-
     titleBar = new TitleBar();
     add(titleBar, BorderLayout.NORTH);
 
-
     panel.add(Box.createVerticalGlue());
-    //panel.add(Box.createVerticalStrut(25));
     createFields();
-
     panel.add(Box.createVerticalGlue());
-//    panel.add(Box.createVerticalStrut(38));
-//
 
     panel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -54,23 +47,22 @@ public class AddPasswordPanel extends JPanel {
 
     Font font = Constants.TEXT_FONT.deriveFont(Font.PLAIN, 18);
 
-    urlField = new RoundJTextField(14, "URL");
+    urlField = new RoundJTextField(16, "URL");
     urlField.setPreferredSize(new Dimension(getWidth(), 50));
     urlField.setFont(font);
     urlField.setBackground(Constants.MIDDLE_GROUND);
 
-    usernameField = new RoundJTextField(14, "Username");
+    usernameField = new RoundJTextField(16, "Username");
     usernameField.setPreferredSize(new Dimension(getWidth(), 50));
     usernameField.setFont(font);
     usernameField.setBackground(Constants.MIDDLE_GROUND);
 
-    passwordField = new RoundJTextField(14, "Password");
+    passwordField = new RoundJTextField(16, "Password");
     passwordField.setPreferredSize(new Dimension(getWidth(), 50));
     passwordField.setFont(font);
     passwordField.setBackground(Constants.MIDDLE_GROUND);
 
     addButton = new RoundJButton("ADD PASSWORD");
-    //addButton.setFont();
     addButton.setPreferredSize(new Dimension(150, 50));
 
 

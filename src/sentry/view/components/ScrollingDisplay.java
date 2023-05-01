@@ -7,9 +7,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -100,8 +98,8 @@ public class ScrollingDisplay extends JPanel {
     websitePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
     websitePanel.setAlignmentY(Component.CENTER_ALIGNMENT);
     websitePanel.setBackground(Constants.LIGHT_GREY);
-    JLabel title = new JLabel("URL - " + website.getUrl());
-    title.setFont(Constants.TEXT_FONT.deriveFont(Font.PLAIN, 14));
+    JLabel title = new JLabel(website.getWebsiteName());
+    title.setFont(Constants.TEXT_FONT.deriveFont(Font.PLAIN, 20));
     title.setForeground(Color.WHITE);
 
     websitePanel.setPreferredSize(new Dimension(350, 100));

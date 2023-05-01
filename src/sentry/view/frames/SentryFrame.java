@@ -17,10 +17,6 @@ public class SentryFrame extends StyledFrame {
 
   private final CardLayout cardLayout;
 
-  // PUT THESE IN CONSTANTS
-  private final int WIDTH = 600;
-  private final int HEIGHT = 450;
-
   public SentryFrame() {
 
     cardLayout = new CardLayout();
@@ -28,7 +24,7 @@ public class SentryFrame extends StyledFrame {
     SignUpPanel signUpPanel = new SignUpPanel();
     MainPanel mainPanel = new MainPanel();
 
-    setPreferredSize(new Dimension(this.WIDTH, this.HEIGHT));
+    setPreferredSize(new Dimension(Constants.LOGIN_FRAME_WIDTH, Constants.LOGIN_FRAME_HEIGHT));
     setLayout(cardLayout);
 
     //Initialize all controllers
@@ -62,7 +58,7 @@ public class SentryFrame extends StyledFrame {
   }
 
   public void showLoginPanel() {
-    setSize(WIDTH, HEIGHT);
+    setSize(Constants.LOGIN_FRAME_WIDTH, Constants.LOGIN_FRAME_HEIGHT);
     cardLayout.show(SentryFrame.this.getContentPane(), "login");
     setLocationRelativeTo(null);
   }
@@ -70,7 +66,6 @@ public class SentryFrame extends StyledFrame {
 
   public void showMainPanel() {
     setSize(Constants.MAIN_FRAME_WIDTH, Constants.MAIN_FRAME_HEIGHT);
-    System.out.println(Constants.MAIN_FRAME_WIDTH + " x " + Constants.MAIN_FRAME_HEIGHT);
     cardLayout.show(SentryFrame.this.getContentPane(), "stored passwords");
     setLocationRelativeTo(null);
   }

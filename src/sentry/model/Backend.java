@@ -73,7 +73,7 @@ public class Backend {
       URL response = new URL("https://logo.clearbit.com/" + url);
       return ImageIO.read(response);
     } catch (Exception e) {
-      e.printStackTrace();
+      System.out.println("No logo available for URL: " + url);
       return null;
     }
   }
