@@ -36,7 +36,8 @@
 <h2 id="about-the-project"> :pencil: About The Project</h2>
 
 <p align="justify"> 
-  Sentry is a desktop password manager built with Swing. User information is stored locally in an SQLite database. This project   was designed using the <strong>MVC</strong> architecture.
+  Sentry is a desktop password manager built with Swing. User information is stored locally in an SQLite database. This project was designed using the <strong>MVC</strong> architecture.
+  This project is not yet responsive but adding resizing is on my roadmap.
 </p>
 
  
