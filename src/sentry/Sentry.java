@@ -39,8 +39,6 @@ public class Sentry {
     SQLite.setup();
     Constants.setup();
 
-    //new AddPasswordFrame(new MainPanel());
     SwingUtilities.invokeLater(SentryFrame::new);
     }
-  
 }

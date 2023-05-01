@@ -1,7 +1,5 @@
 package sentry.controller;
 
-
-import com.sun.tools.javac.Main;
 import sentry.model.Backend;
 import sentry.model.WebsiteAccount;
 import sentry.view.frames.AddPasswordFrame;
@@ -12,7 +10,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -66,7 +63,6 @@ public class MainPageController {
   public static void addDeleteButton(MainPanel mainPanel) {
     mainPanel.deletePassword(e -> {
       WebsiteAccount account = mainPanel.getCurrentlyDisplayedWebsite();
-      System.out.println("DEL: " + account);
       if (Backend.deletePassword(account)) {
         ArrayList<WebsiteAccount> currentWebsites = mainPanel.getCurrentDisplayedWebsites();
         currentWebsites.remove(account);

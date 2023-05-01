@@ -63,7 +63,7 @@ public class SQLite {
     }
   }
 
-  public static boolean addNewUser(String username, String masterPassword) {
+  public static void addNewUser(String username, String masterPassword) {
     String user_id = Encryptor.hash(username, masterPassword);
 
     String sql = "INSERT INTO users(username, user_id) VALUES (?, ?)";
@@ -72,10 +72,8 @@ public class SQLite {
       stmt.setString(1, username);
       stmt.setString(2, user_id);
       stmt.executeUpdate();
-      return true;
     } catch (SQLException e) {
       System.out.println(e.getMessage());
-      return false;
     }
   }
 

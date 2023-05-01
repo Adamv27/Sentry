@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class LoginController {
 
-  private LoginPanel login;
-  private MainPanel mainPanel;
+  private final LoginPanel login;
+  private final MainPanel mainPanel;
   public LoginController(LoginPanel login, MainPanel mainPanel) {
     this.login = login;
     this.mainPanel = mainPanel;
@@ -47,7 +47,6 @@ public class LoginController {
   public boolean attemptLogin() {
     String username = this.login.getUserName();
     String password = this.login.getPassword();
-    System.out.println("LOGGING IN - USERNAME: " + username + " PASSWORD: " + password);
     return Backend.isValidLogin(username, password);
   }
 
