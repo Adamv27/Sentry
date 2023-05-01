@@ -11,10 +11,10 @@
 <details open="open">
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="showcase"> ➤ Showcase</a></li>
+    <li><a href="#showcase"> ➤ Showcase</a></li>
     <li><a href="#about-the-project"> ➤ About The Project</a></li>
     <li><a href="#features"> ➤ Features</a></li>
-    <li><a href="requirements"> ➤ Requirements</a></li>
+    <li><a href="#requirements"> ➤ Requirements</a></li>
     <li><a href="#project-structure"> ➤ Project Structure</a></li>
     <li><a href="#disclaimers"> ➤ Disclaimers</a></li>
   </ol>
