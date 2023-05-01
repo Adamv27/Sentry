@@ -24,6 +24,8 @@
 
 <!-- Showcase -->
 <h2 id="showcase">Showcase</h2>
+<p align="center"><img width=45% src="https://github.com/Adamv27/Sentry/blob/master/media/loogin.png"></p>
+<p align="center"><img width=45% src="https://github.com/Adamv27/Sentry/blob/master/media/main.png"></p>
 
   
 
